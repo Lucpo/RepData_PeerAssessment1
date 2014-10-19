@@ -61,13 +61,27 @@ With missing values removed the median for total number of steps per day is  `r 
 
 ## What is the average daily activity pattern?
 
+Looking at average daily activitry pattern.
+For this we have to aggregate first, then plot.
 
+```{r average, echo = TRUE}
+library(ggplot2)
+interval <- aggregate(steps ~ interval, data2, mean, na.rm = TRUE)
+ggplot(interval, aes(x=interval,y=steps)) + 
+geom_line(color="purple",size=1) +  
+labs(x="Interval",y="Average Number of Steps") 
+```
+Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+
+```{r maxnrsteps, echo = TRUE}
+interval[which.max(interval$steps),]
+```
 
 ## Imputing missing values
 ```{r nrow, echo = TRUE}
 NA_num <- nrow(data2) - nrow(data2_without_NA)
 ```
-A. There are `r NA_num` NA recs out of `r nrow(data2)` total recs.
+There are `r NA_num` NA recs out of `r nrow(data2)` total recs.
 
 
 
